@@ -8,6 +8,10 @@ const std::string& Guide::getName() const {
     return name;
 }
 
+std::size_t Guide::getRouteCount() const {
+    return route.size();
+}
+
 void Guide::addToRoute(MuseumItem* item) {
     route.push_back(item);
 }
@@ -21,7 +25,8 @@ void Guide::showRoute() const {
     }
 
     int stopNumber = 1;
-    for (const MuseumItem* item : route) {
+    for (auto it = route.begin(); it != route.end(); ++it) {
+        const MuseumItem* item = *it;
         std::cout << "Остановка " << stopNumber << ":\n";
         item->printInfo();
         std::cout << "  Рекомендуемое время осмотра: "

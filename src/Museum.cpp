@@ -113,13 +113,5 @@ MyContainer<std::shared_ptr<MuseumItem>> Museum::buildShortRouteForHall(const Ha
         }
     }
 
-    std::sort(route.begin(), route.end(), [](const auto& left, const auto& right) {
-        if (left->getYear() != right->getYear()) {
-            return left->getYear() < right->getYear();
-        }
-
-        return left->getTitle() < right->getTitle();
-    });
-
     return route;
 }

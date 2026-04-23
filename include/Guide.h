@@ -1,20 +1,21 @@
 #ifndef GUIDE_H
 #define GUIDE_H
 
+#include "MyContainer.h"
 #include <string>
-#include <vector>
 
 class MuseumItem;
 
 class Guide {
 private:
     std::string name;
-    std::vector<MuseumItem*> route;
+    MyContainer<MuseumItem*> route;
 
 public:
     Guide(const std::string& name);
 
     const std::string& getName() const;
+    std::size_t getRouteCount() const;
     void addToRoute(MuseumItem* item);
     void showRoute() const;
 };

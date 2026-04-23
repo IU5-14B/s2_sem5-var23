@@ -3,6 +3,7 @@
 #include "Museum.h"
 #include "MuseumItem.h"
 #include "Visitor.h"
+#include <algorithm>
 #include <clocale>
 #include <iostream>
 #include <memory>
@@ -68,6 +69,18 @@ void showRouteItems(const MyContainer<std::shared_ptr<MuseumItem>>& route) {
     }
 }
 
+void showItemsWithManualIterator(const MyContainer<std::shared_ptr<MuseumItem>>& items) {
+    if (items.empty()) {
+        std::cout << "Коллекция пуста, итератор показать не на чем.\n";
+        return;
+    }
+
+    for (auto it = items.begin(); it != items.end(); ++it) {
+        std::cout << "Элемент через ручной итератор:\n";
+        (*it)->printInfo();
+    }
+}
+
 }  // namespace
 
 int main() {
@@ -123,6 +136,11 @@ int main() {
         std::cout << '\n';
     }
 
+    printSection("Ручной обход коллекции итератором");
+    std::cout << "Коллекция музея обходится через MyContainer::begin() / end()\n"
+              << "и явный цикл for (auto it = begin(); it != end(); ++it).\n";
+    showItemsWithManualIterator(museum.getItems());
+
     printSection("План осмотра");
     museum.showVisitPlan();
 
@@ -142,6 +160,18 @@ int main() {
               << "сортируются в MyContainer по году через std::sort.\n";
     MyContainer<std::shared_ptr<MuseumItem>> shortRoute =
         museum.buildShortRouteForHall(requestedHall, 15);
+    std::cout << "До сортировки:\n";
+    showRouteItems(shortRoute);
+
+    std::sort(shortRoute.begin(), shortRoute.end(), [](const auto& left, const auto& right) {
+        if (left->getYear() != right->getYear()) {
+            return left->getYear() < right->getYear();
+        }
+
+        return left->getTitle() < right->getTitle();
+    });
+
+    std::cout << "После сортировки по году и названию:\n";
     showRouteItems(shortRoute);
 
     if (!shortRoute.empty()) {
@@ -155,6 +185,7 @@ int main() {
               << shortenedRoute.size() << '\n';
 
     printSection("Маршрут экскурсии");
+    std::cout << "Количество остановок в маршруте гида: " << guide.getRouteCount() << '\n';
     guide.showRoute();
 
     printSection("Работа гида и посетителя");
