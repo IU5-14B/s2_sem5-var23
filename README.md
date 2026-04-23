@@ -140,7 +140,6 @@
 ## Структура проекта
 
 ```text
-.
 ├── CMakeLists.txt
 ├── README.md
 ├── include/
@@ -165,7 +164,6 @@
     ├── sem3.html
     ├── sem4.html
     └── sem5.html
-
 ```
 
 ## Сборка и запуск
